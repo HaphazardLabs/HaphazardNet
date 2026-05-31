@@ -1,0 +1,4 @@
+# Installed to /etc/sudoers.d/haphazardnet-shutdown (mode 0440).
+# Lets the unprivileged panel user power the box off — and ONLY that — for the
+# slide-to-confirm Shutdown control in the web UI. No other sudo rights.
+haphazardnet ALL=(root) NOPASSWD: /usr/bin/systemctl poweroff

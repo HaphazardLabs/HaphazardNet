@@ -1,0 +1,13 @@
+[Unit]
+Description=HaphazardNet mode applier (Direct/Net)
+After=network.target hostapd.service dnsmasq.service
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/haphazardnet/deploy/mode/apply-mode.sh
+# RemainAfterExit deliberately omitted: this is re-run on every mode change
+# by haphazard-mode.path, and a RemainAfterExit oneshot would no-op on re-start.
+
+[Install]
+WantedBy=multi-user.target

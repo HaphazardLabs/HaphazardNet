@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>HaphazardNet</title>
+<link rel="stylesheet" href="/haphazard.css">
+</head>
+<body>
+<div class="scanlines"></div>
+
+<header class="hdr">
+  <img src="/logo.png" alt="HaphazardLabs" class="logo">
+  <div class="hdr-text">
+    <h1>Haphazard<span class="lime">Net</span></h1>
+    <p class="tagline">brought to you by <span class="lime">HaphazardLabs</span></p>
+  </div>
+  <div class="batt" id="batt-chip" title="UPS HAT">
+    <div class="batt-shell"><div class="batt-fill" id="batt-fill"></div></div>
+    <span class="batt-pct" id="batt-pct">--%</span>
+  </div>
+</header>
+
+<main>
+  <!-- MODE -->
+  <section class="card">
+    <h2>Mode</h2>
+    <div class="modes" id="modes"><!-- buttons injected --></div>
+    <p class="mode-note" id="mode-note"></p>
+  </section>
+
+  <!-- ON THE NET -->
+  <section class="card">
+    <h2>On the Net <span class="count" id="net-count">0</span></h2>
+    <table class="users">
+      <thead><tr><th>Callsign</th><th>Host</th><th>IP</th><th>TAK</th></tr></thead>
+      <tbody id="users"><tr><td colspan="4" class="muted">scanning…</td></tr></tbody>
+    </table>
+  </section>
+
+  <!-- POWER -->
+  <section class="card">
+    <h2>Power</h2>
+    <div class="grid2">
+      <div class="stat"><span class="k">Battery</span><span class="v" id="p-pct">--</span></div>
+      <div class="stat"><span class="k">State</span><span class="v" id="p-state">--</span></div>
+      <div class="stat"><span class="k">Voltage</span><span class="v" id="p-volt">--</span></div>
+      <div class="stat"><span class="k">Draw</span><span class="v" id="p-draw">--</span></div>
+      <div class="stat"><span class="k">Runtime</span><span class="v" id="p-rt">--</span></div>
+      <div class="stat"><span class="k">Power</span><span class="v" id="p-pwr">--</span></div>
+    </div>
+  </section>
+
+  <!-- SYSTEM -->
+  <section class="card">
+    <h2>System</h2>
+    <div class="grid2">
+      <div class="stat"><span class="k">TAK Server</span><span class="v" id="s-taky">--</span></div>
+      <div class="stat"><span class="k">Access Pt</span><span class="v" id="s-ap">--</span></div>
+      <div class="stat"><span class="k">CPU Temp</span><span class="v" id="s-temp">--</span></div>
+      <div class="stat"><span class="k">RAM</span><span class="v" id="s-mem">--</span></div>
+      <div class="stat"><span class="k">Uptime</span><span class="v" id="s-up">--</span></div>
+      <div class="stat"><span class="k">Load</span><span class="v" id="s-load">--</span></div>
+    </div>
+  </section>
+
+  <!-- SHUTDOWN (bottom) -->
+  <section class="card sd-card">
+    <button class="sd-open" id="sd-open">⏻ Shutdown</button>
+
+    <div class="sd-confirm" id="sd-confirm" hidden>
+      <div class="sd-track" id="sd-track">
+        <div class="sd-fill" id="sd-fill"></div>
+        <div class="sd-knob" id="sd-knob">⏻</div>
+        <span class="sd-hint" id="sd-hint">slide to power off →</span>
+      </div>
+      <button class="sd-cancel" id="sd-cancel">cancel</button>
+    </div>
+
+    <div class="sd-done" id="sd-done" hidden>⏻ Powering off — wait for the LED to stop, then it's safe to cut power.</div>
+  </section>
+</main>
+
+<footer><span class="muted" id="foot">HaphazardNet · <span id="clock">--:--</span> UTC</span></footer>
+
+<script src="/app.js"></script>
+</body>
+</html>

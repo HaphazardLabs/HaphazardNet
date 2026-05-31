@@ -1,0 +1,10 @@
+# SDR segment — eth0 is the Pi side, matches the SDR's existing gateway (.1).
+# SDR is 192.168.99.234; the Dell sits at 192.168.99.2 for management.
+# Installed to /etc/systemd/network/10-eth0.network
+[Match]
+Name=eth0
+
+[Network]
+Address=192.168.99.1/24
+ConfigureWithoutCarrier=yes
+LinkLocalAddressing=ipv6

@@ -1,0 +1,10 @@
+[Unit]
+Description=Watch for HaphazardNet mode changes from the panel
+
+[Path]
+# panel writes the requested mode here; re-run the applier on every change
+PathChanged=/etc/haphazard/mode.json
+Unit=haphazard-mode.service
+
+[Install]
+WantedBy=multi-user.target

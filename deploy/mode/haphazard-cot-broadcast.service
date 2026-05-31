@@ -1,0 +1,11 @@
+[Unit]
+Description=HaphazardNet SDR CoT rebroadcast (Direct mode)
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/haphazardnet/relay/cot_relay.py --broadcast --listen 0.0.0.0:4242 --bcast 192.168.10.255:4242
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

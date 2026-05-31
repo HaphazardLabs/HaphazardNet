@@ -1,0 +1,12 @@
+[Unit]
+Description=taky lightweight TAK/CoT server (Net mode)
+After=network.target
+
+[Service]
+# installed into a venv by install.sh (Bookworm pip is externally-managed)
+ExecStart=/opt/taky/venv/bin/taky -c /etc/taky/taky.conf
+Restart=on-failure
+RestartSec=5
+# started/stopped by the mode applier, not enabled at boot
+[Install]
+WantedBy=multi-user.target

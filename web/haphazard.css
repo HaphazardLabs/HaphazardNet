@@ -1,0 +1,116 @@
+/* HaphazardNet — HaphazardLabs theme: black bg, #39ff14 lime, Sega-Genesis vibe */
+:root{
+  --lime:#39ff14; --lime-dim:#1f8f0c; --bg:#050705; --panel:#0c110c;
+  --line:#173d12; --text:#cfe9c8; --muted:#5f7a58; --amber:#ffb000; --red:#ff3b3b;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}   /* author display rules must not override hidden */
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text); min-height:100vh;
+  font-family:"Courier New",ui-monospace,monospace;
+  letter-spacing:.5px; padding-bottom:48px;
+}
+.lime{color:var(--lime)}
+.muted{color:var(--muted)}
+
+/* faint CRT scanlines */
+.scanlines{position:fixed;inset:0;pointer-events:none;z-index:9;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,0) 2px,rgba(0,0,0,.18) 3px);
+  mix-blend-mode:multiply}
+
+/* header */
+.hdr{display:flex;align-items:center;gap:14px;padding:14px 18px;
+  border-bottom:2px solid var(--line);
+  background:linear-gradient(180deg,#0e160d,#070b07);
+  box-shadow:0 0 24px rgba(57,255,20,.08)}
+.logo{width:54px;height:54px;border-radius:8px;image-rendering:auto;
+  filter:drop-shadow(0 0 6px rgba(57,255,20,.4))}
+.hdr-text{flex:1}
+.hdr h1{margin:0;font-size:1.7rem;font-weight:800;letter-spacing:2px;
+  text-shadow:0 0 10px rgba(57,255,20,.45)}
+.tagline{margin:2px 0 0;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+
+/* battery chip in header */
+.batt{display:flex;align-items:center;gap:7px}
+.batt-shell{width:46px;height:20px;border:2px solid var(--lime);border-radius:3px;
+  position:relative;padding:2px}
+.batt-shell:after{content:"";position:absolute;right:-5px;top:5px;width:3px;height:8px;
+  background:var(--lime)}
+.batt-fill{height:100%;width:60%;background:var(--lime);box-shadow:0 0 8px var(--lime);
+  transition:width .6s,background .4s}
+.batt-pct{font-weight:700;font-size:.85rem;min-width:38px}
+
+/* layout */
+main{max-width:760px;margin:0 auto;padding:16px;display:grid;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  box-shadow:inset 0 0 30px rgba(0,0,0,.5)}
+.card h2{margin:0 0 12px;font-size:.8rem;text-transform:uppercase;letter-spacing:2px;
+  color:var(--lime);border-bottom:1px dashed var(--line);padding-bottom:8px}
+.count{float:right;background:var(--lime);color:#02140; color:#021400;border-radius:10px;
+  padding:0 8px;font-size:.75rem;font-weight:800}
+
+/* mode buttons */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode-btn{appearance:none;cursor:pointer;font-family:inherit;letter-spacing:1.5px;
+  background:#0a0f0a;border:2px solid var(--line);color:var(--text);
+  border-radius:6px;padding:14px 10px;text-align:left;transition:.15s}
+.mode-btn:hover{border-color:var(--lime-dim)}
+.mode-btn .mb-label{display:block;font-size:1.05rem;font-weight:800;color:var(--lime)}
+.mode-btn .mb-tag{display:block;font-size:.68rem;color:var(--muted);margin-top:4px;letter-spacing:.5px}
+.mode-btn.active{border-color:var(--lime);background:#0f1c0c;
+  box-shadow:0 0 18px rgba(57,255,20,.25)}
+.mode-btn.pending{border-color:var(--amber);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.55}}
+.mode-note{margin:10px 2px 0;font-size:.72rem;color:var(--muted);min-height:1em}
+
+/* users table */
+.users{width:100%;border-collapse:collapse;font-size:.85rem}
+.users th{text-align:left;color:var(--muted);font-weight:600;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:1px;padding:4px 6px;border-bottom:1px solid var(--line)}
+.users td{padding:7px 6px;border-bottom:1px solid #0e1a0c}
+.users tr:last-child td{border-bottom:none}
+.cs{color:var(--lime);font-weight:700}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.dot.on{background:var(--lime);box-shadow:0 0 7px var(--lime)}
+.dot.off{background:#333;border:1px solid #555}
+.tag-sdr{font-size:.6rem;background:var(--amber);color:#1a1200;border-radius:3px;padding:1px 5px;
+  margin-left:6px;font-weight:800;letter-spacing:1px}
+
+/* stat grids */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.stat{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px dotted #14260f;padding:5px 0}
+.stat .k{color:var(--muted);font-size:.78rem}
+.stat .v{font-weight:700}
+.v.ok{color:var(--lime)} .v.bad{color:var(--red)} .v.warn{color:var(--amber)}
+
+footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:8px;
+  font-size:.7rem;background:#050705;border-top:1px solid var(--line);letter-spacing:1px}
+
+/* shutdown (bottom) */
+.sd-card{text-align:center}
+.sd-open{appearance:none;cursor:pointer;font-family:inherit;letter-spacing:2px;font-weight:800;
+  width:100%;padding:13px;border-radius:6px;background:#150707;color:var(--red);
+  border:2px solid #5a1414;transition:.15s}
+.sd-open:hover{border-color:var(--red);box-shadow:0 0 16px rgba(255,59,59,.25)}
+
+.sd-confirm{display:flex;flex-direction:column;gap:10px;align-items:center}
+.sd-track{position:relative;width:100%;height:54px;border-radius:8px;overflow:hidden;
+  background:#150707;border:2px solid #5a1414;touch-action:none;user-select:none}
+.sd-fill{position:absolute;top:0;left:0;height:100%;width:0;background:rgba(255,59,59,.22)}
+.sd-hint{position:absolute;top:0;left:0;right:0;line-height:54px;text-align:center;
+  color:var(--red);font-size:.8rem;letter-spacing:2px;font-weight:700;pointer-events:none}
+.sd-knob{position:absolute;top:3px;left:3px;width:46px;height:46px;border-radius:6px;
+  background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;cursor:grab;box-shadow:0 0 10px rgba(255,59,59,.5);touch-action:none;z-index:2}
+.sd-knob:active{cursor:grabbing}
+.sd-cancel{appearance:none;cursor:pointer;font-family:inherit;background:none;border:none;
+  color:var(--muted);text-decoration:underline;font-size:.78rem;letter-spacing:1px}
+.sd-done{color:var(--amber);font-weight:700;letter-spacing:1px;line-height:1.5;font-size:.85rem}
+
+@media(max-width:480px){
+  .modes{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .hdr h1{font-size:1.35rem}
+}

@@ -1,0 +1,8 @@
+# AP address — assigned BEFORE dnsmasq/hostapd start, or clients get no IP.
+# Installed to /etc/systemd/network/20-wlan0.network
+[Match]
+Name=wlan0
+
+[Network]
+Address=192.168.10.1/24
+ConfigureWithoutCarrier=yes

@@ -1,0 +1,12 @@
+[Unit]
+Description=HaphazardNet SDR CoT inject into taky (Net mode)
+After=network.target taky.service
+Wants=taky.service
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/haphazardnet/relay/cot_relay.py --inject --listen 0.0.0.0:4242 --taky 127.0.0.1:8087
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
