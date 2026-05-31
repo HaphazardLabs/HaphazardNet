@@ -1,0 +1,13 @@
+[Unit]
+Description=HaphazardNet TAK client roster (callsign->IP for the panel, Net mode)
+After=taky.service
+Wants=taky.service
+
+[Service]
+# runs as root — takyctl needs the root-owned taky management socket
+ExecStart=/usr/bin/python3 /opt/haphazardnet/relay/roster.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

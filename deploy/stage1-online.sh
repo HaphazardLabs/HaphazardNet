@@ -50,6 +50,7 @@ sudo systemctl reload NetworkManager || sudo systemctl restart NetworkManager
 sudo systemctl restart systemd-networkd
 sleep 3
 sudo systemctl enable --now haphazardnet-panel.service haphazard-mode.path
+sudo systemctl enable haphazard-mode.service   # applies the saved mode at boot
 sudo systemctl restart hostapd dnsmasq
 sudo systemctl start haphazard-mode.service || true
 sleep 2

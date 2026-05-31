@@ -108,7 +108,13 @@ App root `/opt/haphazardnet` (mirror of this repo). State in `/etc/haphazard`.
 | `haphazard-mode.service` | runs `apply-mode.sh` on boot + every mode change |
 | `haphazard-cot-broadcast` | SDR CoT → AP broadcast (Direct) |
 | `haphazard-cot-inject` | SDR CoT → taky (Net) |
+| `haphazard-roster` | polls `takyctl status` → writes callsigns.json (Net) |
 | `taky` | CoT server, venv at `/opt/taky/venv`, config `/etc/taky/taky.conf` |
+
+**Callsigns:** in Net mode `haphazard-roster` runs `takyctl status` (taky's client
+table — the only place the IP↔callsign map lives, since CoT contact endpoints are
+server-routed) and writes `ip -> {callsign,uid}` to `/run/haphazard/callsigns.json`,
+which `clients.py` merges so each device shows its ATAK callsign.
 
 **Mode applier flow:** panel (unprivileged) writes `mode.json` → `haphazard-mode.path` fires → `haphazard-mode.service` runs `apply-mode.sh` as root → it sets `ip_forward`, loads `nft-haphazard.conf`, ensures `hostapd`/`dnsmasq`, then toggles `taky` + the relay for the chosen mode and writes `current` back.
 
