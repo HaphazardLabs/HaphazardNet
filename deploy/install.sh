@@ -90,6 +90,7 @@ cp "$REPO"/deploy/mode/haphazard-mode.path       /etc/systemd/system/
 cp "$REPO"/deploy/mode/haphazard-cot-broadcast.service /etc/systemd/system/
 cp "$REPO"/deploy/mode/haphazard-cot-inject.service    /etc/systemd/system/
 cp "$REPO"/deploy/mode/haphazard-roster.service        /etc/systemd/system/
+cp "$REPO"/deploy/mode/haphazard-timesync.service      /etc/systemd/system/
 cp "$REPO"/deploy/haphazardnet-panel.service     /etc/systemd/system/
 # let the panel user power off (slide-to-confirm Shutdown button) — only that
 install -m440 "$REPO"/deploy/shutdown-sudoers     /etc/sudoers.d/haphazardnet-shutdown

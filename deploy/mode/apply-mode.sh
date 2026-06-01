@@ -30,9 +30,11 @@ if [ "$MODE" = "net" ]; then
   systemctl start taky                || log "WARN: taky failed to start"
   systemctl start haphazard-cot-inject || log "WARN: cot-inject failed"
   systemctl start haphazard-roster     || log "WARN: roster failed"
+  systemctl start haphazard-timesync   || log "WARN: timesync failed"
 else
   systemctl stop  haphazard-cot-inject 2>/dev/null
   systemctl stop  haphazard-roster     2>/dev/null
+  systemctl stop  haphazard-timesync   2>/dev/null
   systemctl stop  taky                 2>/dev/null
   systemctl start haphazard-cot-broadcast || log "WARN: cot-broadcast failed"
 fi

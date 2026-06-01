@@ -109,7 +109,14 @@ App root `/opt/haphazardnet` (mirror of this repo). State in `/etc/haphazard`.
 | `haphazard-cot-broadcast` | SDR CoT → AP broadcast (Direct) |
 | `haphazard-cot-inject` | SDR CoT → taky (Net) |
 | `haphazard-roster` | polls `takyctl status` → writes callsigns.json (Net) |
+| `haphazard-timesync` | sets the clock from connected devices' CoT time (Net) |
 | `taky` | CoT server, venv at `/opt/taky/venv`, config `/etc/taky/taky.conf` |
+
+**Clock (no RTC, no internet):** `haphazard-timesync` taps taky's CoT stream and
+reads the device-supplied `<event time="…Z">` (ATAK clients are GPS/cell-synced),
+syncing the Pi's clock to the **newest** event time when it drifts past 10 s. So
+any connected TAK device keeps the kit on time — "time over CoT." Net mode only
+(devices must be talking to taky); it locks on within a device's report interval.
 
 **Callsigns:** in Net mode `haphazard-roster` runs `takyctl status` (taky's client
 table — the only place the IP↔callsign map lives, since CoT contact endpoints are

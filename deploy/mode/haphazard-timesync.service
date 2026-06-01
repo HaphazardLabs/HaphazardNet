@@ -1,0 +1,13 @@
+[Unit]
+Description=HaphazardNet clock sync from connected TAK devices' CoT (Net mode)
+After=taky.service
+Wants=taky.service
+
+[Service]
+# runs as root — needs to set the system clock
+ExecStart=/usr/bin/python3 /opt/haphazardnet/relay/cot_timesync.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
