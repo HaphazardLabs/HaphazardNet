@@ -125,9 +125,9 @@ which `clients.py` merges so each device shows its ATAK callsign.
 
 **Mode applier flow:** panel (unprivileged) writes `mode.json` → `haphazard-mode.path` fires → `haphazard-mode.service` runs `apply-mode.sh` as root → it sets `ip_forward`, loads `nft-haphazard.conf`, ensures `hostapd`/`dnsmasq`, then toggles `taky` + the relay for the chosen mode and writes `current` back.
 
-**Panel API:** `GET /api/status` (mode + battery + system), `GET /api/clients` (who's on the net), `GET|POST /api/mode`, `POST /api/shutdown` (safe power-off). OS captive-portal probes 302 to `/`.
+**Panel API:** `GET /api/status` (mode + battery + system), `GET /api/clients` (who's on the net), `GET|POST /api/mode`, `POST /api/shutdown`, `POST /api/reboot`. OS captive-portal probes 302 to `/`.
 
-**Shutdown control:** at the bottom of the panel — tap **Shutdown** to arm, then **slide to power off** to confirm (two-step so it can't fire by accident; touch + mouse). It `POST`s `/api/shutdown`; the panel replies, then powers off 2 s later via `sudo systemctl poweroff`. The unprivileged panel user is granted *only* that one command in `/etc/sudoers.d/haphazardnet-shutdown` (`deploy/shutdown-sudoers`). Wait for the activity LED to stop before cutting power. Battery is read from the INA219 over raw `/dev/i2c-1` (`haphazard/battery.py`); if the chip is absent it returns simulated data flagged `mock:true`.
+**Power controls** (bottom of the panel): **Reboot** (amber) above **Shutdown** (red). Each is two-step — tap to arm, then **slide to confirm** (so it can't fire by accident; touch + mouse). They `POST` `/api/reboot` / `/api/shutdown`; the panel replies, then runs `sudo systemctl reboot|poweroff` 2 s later. The unprivileged panel user is granted *only* those two commands in `/etc/sudoers.d/haphazardnet-shutdown` (`deploy/shutdown-sudoers`). On shutdown, wait for the activity LED to stop before cutting power; on reboot, the AP drops briefly (eth0/SDR may need a cold cycle, but `wlan0` comes back on its own). Battery is read from the INA219 over raw `/dev/i2c-1` (`haphazard/battery.py`); if the chip is absent it returns simulated data flagged `mock:true`.
 
 **Reference / credentials:**
 - Hostname `haphazardnet`; user `haphazardlabs` / `CHANGEME`; passwordless sudo (`/etc/sudoers.d/010-haphazard`); SSH key installed.

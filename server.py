@@ -10,6 +10,7 @@ Serves the themed web UI and a small JSON API:
     GET  /api/mode         -> mode state
     POST /api/mode {mode}  -> request a mode change (root applier acts on it)
     POST /api/shutdown     -> safe power off (slide-to-confirm in the UI)
+    POST /api/reboot       -> reboot (slide-to-confirm in the UI)
 
 Also answers OS captive-portal probes with a redirect to the panel, so phones
 that join the AP pop the "sign in to network" sheet straight into this UI.
@@ -127,6 +128,15 @@ class Handler(BaseHTTPRequestHandler):
                 pass
             threading.Timer(2.0, lambda: subprocess.Popen(
                 ["sudo", "-n", "/usr/bin/systemctl", "poweroff"])).start()
+        elif path == "/api/reboot":
+            # Confirmed via the UI's slide-to-reboot. Same pattern as shutdown.
+            self._json({"status": "rebooting"})
+            try:
+                self.wfile.flush()
+            except Exception:
+                pass
+            threading.Timer(2.0, lambda: subprocess.Popen(
+                ["sudo", "-n", "/usr/bin/systemctl", "reboot"])).start()
         else:
             self.send_error(404)
 

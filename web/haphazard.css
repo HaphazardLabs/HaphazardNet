@@ -109,6 +109,15 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:8px;
   color:var(--muted);text-decoration:underline;font-size:.78rem;letter-spacing:1px}
 .sd-done{color:var(--amber);font-weight:700;letter-spacing:1px;line-height:1.5;font-size:.85rem}
 
+/* reboot variant — amber instead of red */
+.rb-open{color:var(--amber);border-color:#5a3a14;background:#150f07}
+.rb-open:hover{border-color:var(--amber);box-shadow:0 0 16px rgba(255,176,0,.25)}
+.rb-track{background:#150f07;border-color:#5a3a14}
+.rb-fill{background:rgba(255,176,0,.22)}
+.rb-hint{color:var(--amber)}
+.rb-knob{background:var(--amber);box-shadow:0 0 10px rgba(255,176,0,.5)}
+.rb-done{color:var(--lime)}
+
 @media(max-width:480px){
   .modes{grid-template-columns:1fr}
   .grid2{grid-template-columns:1fr}

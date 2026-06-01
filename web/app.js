@@ -124,16 +124,16 @@ setInterval(tickStatus, STATUS_MS);
 setInterval(tickClients, CLIENTS_MS);
 setInterval(tickClock, 1000);
 
-// ---------- SHUTDOWN: tap to arm, slide to confirm ----------
-(function () {
-  const open = $("sd-open"), confirm = $("sd-confirm"), done = $("sd-done");
-  const track = $("sd-track"), knob = $("sd-knob"), fill = $("sd-fill"), hint = $("sd-hint");
+// ---------- POWER: tap to arm, slide to confirm (shutdown + reboot) ----------
+function slideConfirm(p, endpoint) {
+  const open = $(p + "-open"), confirm = $(p + "-confirm"), done = $(p + "-done");
+  const track = $(p + "-track"), knob = $(p + "-knob"), fill = $(p + "-fill"), hint = $(p + "-hint");
   if (!open) return;
   let dragging = false, startX = 0, x = 0, maxX = 0;
 
   function reset() { x = 0; knob.style.left = "3px"; fill.style.width = "0"; hint.style.opacity = "1"; }
   open.onclick = () => { open.hidden = true; confirm.hidden = false; reset(); };
-  $("sd-cancel").onclick = () => { confirm.hidden = true; open.hidden = false; };
+  $(p + "-cancel").onclick = () => { confirm.hidden = true; open.hidden = false; };
 
   knob.addEventListener("pointerdown", (e) => {
     dragging = true; startX = e.clientX - x;
@@ -149,14 +149,16 @@ setInterval(tickClock, 1000);
   });
   document.addEventListener("pointerup", () => {
     if (!dragging) return; dragging = false;
-    if (maxX > 0 && x >= maxX * 0.92) powerOff(); else reset();
+    if (maxX > 0 && x >= maxX * 0.92) fire(); else reset();
   });
 
-  async function powerOff() {
+  async function fire() {
     confirm.hidden = true; done.hidden = false;
     try {
-      await fetch("/api/shutdown", { method: "POST",
+      await fetch(endpoint, { method: "POST",
         headers: { "Content-Type": "application/json" }, body: "{}" });
-    } catch (_) { /* connection drops as it powers down — expected */ }
+    } catch (_) { /* connection drops as it powers down/reboots — expected */ }
   }
-})();
+}
+slideConfirm("rb", "/api/reboot");
+slideConfirm("sd", "/api/shutdown");
