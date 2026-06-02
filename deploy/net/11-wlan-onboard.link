@@ -1,0 +1,6 @@
+[Match]
+MACAddress=2c:cf:67:36:d9:1d
+Type=wlan
+
+[Link]
+Name=wlan1
