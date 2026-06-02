@@ -32,7 +32,8 @@ There is **no internet uplink, ever** — the kit is fully standalone in the fie
 
 - **Raspberry Pi Zero 2W** — quad Cortex-A53 @ 1 GHz, **512 MB RAM** (the defining constraint — too small for real TAK Server, hence `taky`).
 - **Waveshare ETH/USB HUB HAT** — adds a wired RJ45 (`eth0`, a Realtek RTL815x USB-Ethernet, MAC `00:e0:4c:36:0b:94`) plus a 3-port USB hub, all on the Zero's single USB 2.0 line. `eth0` carries the SDR segment.
-- **SEENGREAT UPS HAT (A)** — 3.7 V LiPo (~1500 mAh, ~9 h), Type-C charge in. Battery telemetry via an onboard **INA219 on I2C bus 1 at address `0x43`** (32 V/2 A calibration; battery % = `(V−3.0)/1.2`).
+- **SunFounder PiPower 5 UPS** — 5 V/5 A out, USB-C PD in, 2S pack. Powers the Pi + hub HAT + ALFA (fixed the brownouts the original SEENGREAT couldn't). Battery telemetry via its MCU on **I2C bus 1 at `0x5c`** (little-endian regs: r8 batt mV, r10 mA signed, r12 %, r18 charging). Needs SunFounder's `dtoverlay=sunfounder-pipower5` (run their installer) **and the PiPower 5 sitting directly on the GPIO** — a HAT between it and the Pi that doesn't pass GPIO 2/3 leaves the bus empty.
+- **ALFA AWUS036AC** (RTL8812AU) — the AP radio (range). Driver built from source (`deploy/alfa-driver.sh`); pinned to `wlan0` by MAC; onboard radio → `wlan1` (spare).
 - *(Planned)* Inland ILI9486 3.5" SPI TFT status screen; USB-WiFi dongle for range + a future Mesh mode.
 
 **Power is not optional plumbing.** The Pi Zero 2W + the ETH/USB hub HAT draw more than the UPS battery alone can deliver during boot — on battery only it browns out and boot-loops. **Keep the UPS plugged into a solid 5 V / ≥3 A wall source**, especially during setup.
