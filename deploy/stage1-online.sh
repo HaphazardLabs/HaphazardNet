@@ -3,7 +3,9 @@
 # (eth0 stays on the router/DHCP so the SSH session survives). Run on the Pi.
 # Stage 2 (later, going to field) switches eth0 to the static SDR segment.
 set -e
-SRC="$HOME/HaphazardNet"
+# Repo root, derived from this script's own location — works regardless of the
+# clone's directory name or whether the script is run via sudo (where $HOME=/root).
+SRC="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
 DEST=/opt/haphazardnet
 say(){ echo "=== $* ==="; }
 
@@ -17,6 +19,11 @@ id haphazardnet &>/dev/null || sudo useradd -r -s /usr/sbin/nologin -G i2c hapha
 sudo install -d -o haphazardnet -g haphazardnet /etc/haphazard /run/haphazard
 [ -f /etc/haphazard/mode.json ] || echo '{"current":"direct","requested":"direct"}' | sudo tee /etc/haphazard/mode.json >/dev/null
 sudo chown haphazardnet:haphazardnet /etc/haphazard/mode.json
+# /run is tmpfs (wiped each boot). Install the tmpfiles rule so /run/haphazard is
+# recreated on EVERY boot — without it the panel comes up now but dies after a
+# reboot (systemd ReadWritePaths fails: /run/haphazard missing -> 226/NAMESPACE).
+sudo cp "$SRC"/deploy/haphazard-tmpfiles.conf /etc/tmpfiles.d/haphazard.conf
+sudo systemd-tmpfiles --create /etc/tmpfiles.d/haphazard.conf
 
 say "wlan0 -> systemd-networkd (eth0 left on router)"
 printf '[keyfile]\nunmanaged-devices=interface-name:wlan0\n' | sudo tee /etc/NetworkManager/conf.d/99-unmanage.conf >/dev/null
